@@ -33,45 +33,90 @@ struct CardView: View {
                 
                        
             }
+            /*
+             VStack {
+                            Image("Eosinophil")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                            
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text("4/16/20")
+                                        .font(.headline)
+                                        .foregroundColor(.secondary)
+                                    Text("Eosinophil")
+                                        .font(.title)
+                                        .fontWeight(.black)
+                                        .foregroundColor(.primary)
+                                        .lineLimit(3)
+                                    Text("Stephanie Zhang")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                                .layoutPriority(100)
+                                Spacer()
+                            }
+                            .padding()
+                            
+                        }
+                        .cornerRadius(15)
+                        .overlay(
+                            RoundedRectangle(cornerRadius:10)
+                                .stroke(Color(.sRGB, red:150/255, green: 150/255, blue: 150/255, opacity: 0.1), lineWidth: 1)
+                        )
+                            .padding([.top, .horizontal])
+                        
+                    }
+                    
+             */
             
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 20){
-                    VStack(alignment: .leading, spacing: 12){
-                       
+                    
 
-                        Button(action: {
-                            self.show.toggle()
-                        }) {
-                            VStack(alignment: .leading){
-                            Image("Eosinophil").renderingMode(.original)
-                                //.padding()
-                                //.border(Color.purple)
-                            VStack(alignment: .leading, spacing: 6){
-                                Text("My Classification 1").fontWeight(.heavy).foregroundColor(.black)
-                                Text("Eosinophil (98%)").foregroundColor(.black)
-                                Text("01/01/2000").foregroundColor(.gray)
-                                        
-                                
-                                }
+                    Button(action: {
+                        self.show.toggle()
+                    }) {
+                        VStack(alignment: .leading){
+                        Image("Eosinophil").renderingMode(.original)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text("4/16/20")
+                                    .font(.headline)
+                                    .foregroundColor(.secondary)
+                                Text("Eosinophil")
+                                    .font(.title)
+                                    .fontWeight(.black)
+                                    .foregroundColor(.primary)
+                                    .lineLimit(3)
+                                Text("Stephanie Zhang")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
                             }
-                            
-                                
+                            .layoutPriority(100)
+                            Spacer()
                         }
-                        //DATA ENTRIES
-                        //there shoulud be option to make entry name
+                        .padding()
+                        }
                         
-                    
-                        
-                        }.padding()
-                        .border(Color.purple, width: 4)
-                        .cornerRadius(25)
-                        //will debate on corner radius later
-                    
-                        .sheet(isPresented: $show){
-                            CardDetailView()
-                            }
-    
+                            
                     }
+                    //DATA ENTRIES
+                    //there shoulud be option to make entry name
+
+                    }.cornerRadius(15)
+                    .overlay(
+                        RoundedRectangle(cornerRadius:10)
+                            .stroke(Color(.sRGB, red:150/255, green: 150/255, blue: 150/255, opacity: 0.1), lineWidth: 1)
+                    )
+                        .padding([.top, .horizontal])
+                
+                    .sheet(isPresented: $show){
+                        CardDetailView()
+                        }
+    
                 }
                 //will make list to go in here later, return data and stuff
         }
