@@ -21,8 +21,16 @@ struct CardView: View {
             HStack {
                Text("Past Entries").fontWeight(.heavy).font(.largeTitle).padding()
                Spacer()
-               //toggle this button later
-               Text("Edit").font(.title).padding()
+               
+                Button(action: {
+                    print("edit button pressed")
+                    //delete cards process later
+                })
+                {
+                    Text("Edit").font(.title).padding()
+                        .foregroundColor(Color.red)
+                }
+                
                        
             }
             

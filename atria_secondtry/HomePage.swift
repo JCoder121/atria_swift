@@ -20,7 +20,7 @@ struct HomePage: View {
                 //takes care of scrolling card view
                 CardView()
                     .tabItem {
-                        Image(systemName: "person.fill")
+                        Image(systemName: "house")
                         Text("Home")
                         //other materials here
                         //show cards here
@@ -29,7 +29,7 @@ struct HomePage: View {
                 //takes care of scanning in pictures for input
                 AddPictureView()
                     .tabItem {
-                        Image(systemName: "heart.fill")
+                        Image(systemName: "camera")
                         Text("Add")
                         //do things
                 }
@@ -37,7 +37,7 @@ struct HomePage: View {
                 //filler view for now, could be of use later
                 AboutUsView()
                     .tabItem {
-                        Image(systemName: "mappin.circle.fill")
+                        Image(systemName: "info.circle")
                         Text("About Us")
                 }
             }
