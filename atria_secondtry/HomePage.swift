@@ -21,7 +21,7 @@ struct HomePage: View {
             
             TabView {
                 //takes care of scrolling card view
-                CardView()
+                CardView(image: "Eosinophil", date: "4/15/20", cellType: "Eosinophil", author: "Stephanie Zhang")
                     .tabItem {
                         Image(systemName: "person.fill")
                         Text("Home")
@@ -32,7 +32,7 @@ struct HomePage: View {
                 //takes care of scanning in pictures for input
                 AddPictureView()
                     .tabItem {
-                        Image(systemName: "heart.fill")
+                        Image(systemName: "camera.fill")
                         Text("Add")
                         //do things
                 }
