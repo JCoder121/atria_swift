@@ -2,8 +2,8 @@
 //  CardView.swift
 //  atria_secondtry
 //
-//  Created by Jeffrey Chen on 4/16/20.
-//  Copyright © 2020 Jeffrey Chen. All rights reserved.
+//  Created by Stephanie Zhang + Jeffrey Chen on 4/16/20.
+//  Copyright © 2020 Stephanie Zhanag + Jeffrey Chen. All rights reserved.
 //
 
 import SwiftUI
@@ -30,19 +30,26 @@ struct CardView: View {
                 
             }
             ScrollView {
+                // create a list/array for vstack (see patrickapp music player)
             VStack {
-                Image("Eosinophil")
+                Button(action: {
+                                       
+                                       self.show.toggle()
+                                       
+                }) {
+                    Image("Eosinophil").renderingMode(.original)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                
+                }
                 HStack {
                     VStack(alignment: .leading) {
                         Text("4/16/20")
                             .font(.headline)
                             .foregroundColor(.secondary)
-                        Text("Eosinophil")
-                            .font(.title)
-                            .fontWeight(.black)
+                        Text("EOSINOPHIL")
+                            //use uppercase method
+                            .font(.custom("Futura", size: 25))
+                            //.fontWeight(.black)
                             .foregroundColor(.primary)
                             .lineLimit(3)
                         Text("Stephanie Zhang")
@@ -63,6 +70,8 @@ struct CardView: View {
                 .padding([.top, .horizontal])
             
         }
+           .sheet(isPresented: $show){CardDetailView()}
+
         
     }
     }

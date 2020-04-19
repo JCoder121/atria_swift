@@ -18,7 +18,6 @@ struct HomePage: View {
     var body: some View {
         VStack {
             
-            
             TabView {
                 //takes care of scrolling card view
                 CardView(image: "Eosinophil", date: "4/15/20", cellType: "Eosinophil", author: "Stephanie Zhang")
