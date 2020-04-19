@@ -9,12 +9,12 @@
 
 import SwiftUI
 
+
 struct HomePage: View {
     
 
     var body: some View {
         VStack {
-            
             
             TabView {
                 //takes care of scrolling card view
@@ -27,7 +27,7 @@ struct HomePage: View {
                         
                 }
                 //takes care of scanning in pictures for input
-                AddPictureView()
+                NewPictureView()
                     .tabItem {
                         Image(systemName: "camera")
                         Text("Add")

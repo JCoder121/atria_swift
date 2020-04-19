@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+
 struct CardDetailView: View {
     var body : some View{
         
@@ -17,7 +18,7 @@ struct CardDetailView: View {
             Button(action: {
                 print("something happened")
             }) {
-                Text("yo there")
+                Text("hi there")
             }
             }.background(Color.white)
             .clipShape(Rounded())
