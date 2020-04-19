@@ -18,6 +18,8 @@ struct CardView: View {
     @State var showCardDetail: Bool = false
     @State var image: Data = .init(count: 0)
    
+    //NEED TO HAVE A FILTER WHEN SEARCHING
+    //this can just be fetch request with a predicate but need to indicate a symbol/sort function
     
     func delete_all() {
         

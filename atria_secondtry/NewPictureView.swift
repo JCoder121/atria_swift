@@ -36,13 +36,18 @@ struct NewPictureView: View {
                Button(action: {
                   //machine learning here
                 //if self.image.count != 0 {
+                    
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     let context = appDelegate.persistentContainer.viewContext
-                
+                    
                     let send = CardData(context: self.managedObjectContext)
                     send.name = "testingagain"
                     send.picture = self.image
                     
+                    //title stuff here
+                //fix
+                //AskNewTitleAlert()
+                
                     do{
                         try context.save()
                     } catch{
@@ -111,6 +116,54 @@ struct NewPictureView: View {
                
            }
        }
+}
+
+struct AskNewTitleAlert: View {
+        
+    @State private var wantToName: Bool = false
+    
+    var body: some View {
+        VStack {
+            Text("Do you want to name this classification?")
+            Divider()
+            HStack {
+                Spacer()
+                Button(action: {
+                    //UIApplication.shared.windows[0].rootViewController?.dismiss(animated: true, completion: {})
+                    MakeNewTitleAlert()
+                }) {
+
+                    Text("Yes")
+                }
+                Spacer()
+
+                Divider()
+
+                Spacer()
+                Button(action: {
+                    UIApplication.shared.windows[0].rootViewController?.dismiss(animated: true, completion: {})
+                }) {
+                    Text("Skip")
+                }
+                Spacer()
+            }.padding(0)
+
+
+            
+        }.background(Color(white: 0.9))
+    }
+}
+
+struct MakeNewTitleAlert: View {
+    @State private var title: String = "My Cell Classification"
+    
+    var body: some View {
+        
+        VStack {
+            Text("Name Your Classification")
+        }
+    }
+    
 }
 
 struct NewPictureView_Previews: PreviewProvider {
