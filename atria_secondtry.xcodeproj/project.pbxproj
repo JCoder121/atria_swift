@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0065B99A2449013500B3EF01 /* libRecommender.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0065B9992449013400B3EF01 /* libRecommender.dylib */; };
-		0065B99C2449014300B3EF01 /* best_turi.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 0065B99B2449014200B3EF01 /* best_turi.mlmodel */; };
+		0065B99C2449014300B3EF01 /* Classification.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 0065B99B2449014200B3EF01 /* Classification.mlmodel */; };
 		0065B99E244906A200B3EF01 /* AboutUsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0065B99D244906A200B3EF01 /* AboutUsView.swift */; };
 		0065B9A4244910C200B3EF01 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0065B9A3244910C200B3EF01 /* CardView.swift */; };
 		00B8200D244CD65100EE5C60 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B8200C244CD65100EE5C60 /* ImagePicker.swift */; };
@@ -28,7 +28,7 @@
 
 /* Begin PBXFileReference section */
 		0065B9992449013400B3EF01 /* libRecommender.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libRecommender.dylib; sourceTree = "<group>"; };
-		0065B99B2449014200B3EF01 /* best_turi.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = best_turi.mlmodel; sourceTree = "<group>"; };
+		0065B99B2449014200B3EF01 /* Classification.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Classification.mlmodel; sourceTree = "<group>"; };
 		0065B99D244906A200B3EF01 /* AboutUsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsView.swift; sourceTree = "<group>"; };
 		0065B9A3244910C200B3EF01 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		00B8200C244CD65100EE5C60 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -101,7 +101,7 @@
 				00E644412447E5FB0029EE4C /* Assets.xcassets */,
 				00E644462447E5FB0029EE4C /* LaunchScreen.storyboard */,
 				00E644492447E5FB0029EE4C /* Info.plist */,
-				0065B99B2449014200B3EF01 /* best_turi.mlmodel */,
+				0065B99B2449014200B3EF01 /* Classification.mlmodel */,
 				0065B9992449013400B3EF01 /* libRecommender.dylib */,
 				00E6443C2447E5F50029EE4C /* atria_secondtry.xcdatamodeld */,
 				00E644432447E5FB0029EE4C /* Preview Content */,
@@ -194,7 +194,7 @@
 				00DD52A324498C8700646FCE /* CardDetailView.swift in Sources */,
 				00BEAE0424491B22002F1523 /* Coordinator.swift in Sources */,
 				00E644392447E5F50029EE4C /* AppDelegate.swift in Sources */,
-				0065B99C2449014300B3EF01 /* best_turi.mlmodel in Sources */,
+				0065B99C2449014300B3EF01 /* Classification.mlmodel in Sources */,
 				00E6443E2447E5F50029EE4C /* atria_secondtry.xcdatamodeld in Sources */,
 				00E644402447E5F50029EE4C /* HomePage.swift in Sources */,
 				00B82011244CD86600EE5C60 /* NewPictureView.swift in Sources */,

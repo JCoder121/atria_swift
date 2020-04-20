@@ -11,160 +11,134 @@ import CoreData
 
 struct NewPictureView: View {
       
-       @FetchRequest(entity: CardData.entity(),sortDescriptors: []) var cards: FetchedResults<CardData>
-       @Environment(\.managedObjectContext) var managedObjectContext
+    @FetchRequest(entity: CardData.entity(),sortDescriptors: []) var cards: FetchedResults<CardData>
+    @Environment(\.managedObjectContext) var managedObjectContext
 
-       @State var image: Data = .init(count:0)
-       @State var show: Bool = false
-       
-       var body: some View {
+    //@State var image_to_save: Image
+    @State var image: Data = .init(count:0)
+    @State var showImagePicker: Bool = false
+    @State var showAnalysis: Bool = false
+    
+    
+    let model = Classification()
+    @State var output_classification: String = ""
+    
+    
+    //alert or some other view to name the thing
+    @State var userLabel: String = ""
+    
+    ///ML MODEL
+    //test
 
-           VStack(spacing: 30) {
-               
-                Text("Add Picture").fontWeight(.heavy).font(.largeTitle).padding()
-                if self.image.count != 0 {
-                   Image(uiImage: UIImage(data: self.image)!)
-                       .renderingMode(.original)
-                   .resizable()
-                       .frame(width: 100, height: 100)
-                }
-                else{
-                   Image(systemName: "photo.fill")
-                }
-               Spacer()
+    ///VIEW HANDLING
+    var body: some View {
+
+        VStack(alignment: .center, spacing: 30) {
+           
+            Text("Add Picture").fontWeight(.heavy).font(.largeTitle).padding()
+            if self.image.count != 0 {
+                //image_to_save = Image(uiImage: UIImage(data: self.image)!)
+               Image(uiImage: UIImage(data: self.image)!)
+                    .renderingMode(.original)
+                    .resizable()
+                    .frame(width: 100, height: 100)
+            }
+            else{
+               Image(systemName: "photo.fill")
+            }
+           Spacer()
+           
+           Button(action: {
+            //need to make sure you can only press analzye after choosing image
+              //FIX machine learning here
+            //if self.image.count != 0 {
+           /*
+            guard (try? self.model.prediction(image: Image(uiImage: UIImage(data: self.image)!) as! CVPixelBuffer)) != nil else{
+                fatalError("Unexpected runtime error.")
+            }
+            */
+            //let output_classification = model.
+                
+                //self.showAnalysis.toggle()
+            
+            
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let context = appDelegate.persistentContainer.viewContext
+                
+                let send = CardData(context: self.managedObjectContext)
+                send.name = self.userLabel
+                send.picture = self.image
+                
+                //title stuff here
+        
+            
+                do{
+                    try context.save()
+                } catch{
+                   print(error)
+               }
+                
+            //}
+            
+           })
+           {
+            Text("Analyze")
+                    .frame(minWidth: 0, maxWidth: 275)
+                    .padding()
+                    .font(.custom("Futura", size: 20))
+                    .background(Color(red: 219 / 255, green: 184 / 255, blue: 233 / 255))
+                    .cornerRadius(30)
+                    .foregroundColor(.white)
+           }
+           
+           HStack{
                
                Button(action: {
-                  //machine learning here
-                //if self.image.count != 0 {
-                    
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    let context = appDelegate.persistentContainer.viewContext
-                    
-                    let send = CardData(context: self.managedObjectContext)
-                    send.name = "testingagain"
-                    send.picture = self.image
-                    
-                    //title stuff here
-                //fix
-                //AskNewTitleAlert()
-                
-                    do{
-                        try context.save()
-                    } catch{
-                       print(error)
-                   }
-                    
-                //}
-                
+                   print("will toggle camera")
                })
+               {
+                   Text("Use Camera")
+                    .font(.custom("Futura", size: 20))
+                    .padding()
+                    .background(Color(red: 219 / 255, green: 184 / 255, blue: 233 / 255))
+                    .cornerRadius(30)
+                    .foregroundColor(.white)
+                    .padding(10)
                     
-                   {
-                      Text("Analyze")
-                          .fontWeight(.bold)
-                          .font(.title)
-                          .padding()
-                          .background(Color.red)
-                          .cornerRadius(40)
-                          .foregroundColor(.white)
-                    }
+               }
+
                
-              
-               HStack{
-                   
-                   Button(action: {
-                       print("will toggle camera")
-                   })
-                   {
-                       Text("Use Camera")
-                       .fontWeight(.bold)
+               Button(action: {
+                    self.showImagePicker.toggle()
+                })
+                {
+                    Text("Photo Library")
                        
+                       .font(.custom("Futura", size: 20))
                        .padding()
-                       .background(LinearGradient(gradient: Gradient(colors: [Color.red, Color.purple]), startPoint: .leading, endPoint: .trailing))
-                       .cornerRadius(40)
+                       .background(Color(red: 219 / 255, green: 184 / 255, blue: 233 / 255))
+                       .cornerRadius(30)
                        .foregroundColor(.white)
                        .padding(10)
-                   }
-    
-                   
-                   Button(action: {
-                        self.show.toggle()
-                    })
-                    {
-                        Text("Photo Library")
-                           .fontWeight(.bold)
-                           
-                           .padding()
-                           .background(LinearGradient(gradient: Gradient(colors: [Color.purple, Color.red]), startPoint: .leading, endPoint: .trailing))
-                           .cornerRadius(40)
-                           .foregroundColor(.white)
-                           .padding(10)
-                   }
-                   .padding()
-                   
-
-                   .sheet(isPresented: self.$show, onDismiss: {
-                       self.show = false
-                       
-                       
-                   }, content: {
-                       ImagePicker(show: self.$show, image: self.$image)
-                   })
-                   
                }
-               
-               Spacer()
+
+               .sheet(isPresented: self.$showImagePicker, onDismiss: {
+                   self.showImagePicker = false
+                   
+                   
+               }, content: {
+                   ImagePicker(showImagePicker: self.$showImagePicker, image: self.$image)
+               })
                
            }
+           
+           Spacer()
+           
        }
+   }
 }
 
-struct AskNewTitleAlert: View {
-        
-    @State private var wantToName: Bool = false
-    
-    var body: some View {
-        VStack {
-            Text("Do you want to name this classification?")
-            Divider()
-            HStack {
-                Spacer()
-                Button(action: {
-                    //UIApplication.shared.windows[0].rootViewController?.dismiss(animated: true, completion: {})
-                    MakeNewTitleAlert()
-                }) {
 
-                    Text("Yes")
-                }
-                Spacer()
-
-                Divider()
-
-                Spacer()
-                Button(action: {
-                    UIApplication.shared.windows[0].rootViewController?.dismiss(animated: true, completion: {})
-                }) {
-                    Text("Skip")
-                }
-                Spacer()
-            }.padding(0)
-
-
-            
-        }.background(Color(white: 0.9))
-    }
-}
-
-struct MakeNewTitleAlert: View {
-    @State private var title: String = "My Cell Classification"
-    
-    var body: some View {
-        
-        VStack {
-            Text("Name Your Classification")
-        }
-    }
-    
-}
 
 struct NewPictureView_Previews: PreviewProvider {
     static var previews: some View {

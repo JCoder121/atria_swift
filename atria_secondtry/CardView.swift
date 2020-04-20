@@ -74,7 +74,7 @@ struct CardView: View {
                     self.showCardDetail.toggle()
                 }){
                 //Image("Eosinophil")
-               Image(uiImage: UIImage(data: card.picture ?? self.image)!)
+                Image(uiImage: UIImage(data: card.picture ?? self.image)!)
                               .resizable()
                               .renderingMode(.original)
                               .aspectRatio(contentMode: .fit)
@@ -88,15 +88,16 @@ struct CardView: View {
                             .font(.headline)
                             .foregroundColor(.secondary)
                         
-                       Text("Eosinophil")
+                       Text("Classification")
                        //Text("\(card.name!)")
                         //Text(card.name)
-                            .font(.title)
-                            .fontWeight(.black)
+                        .font(.custom("Futura", size: 25))
+                            
                             .foregroundColor(.primary)
                             .lineLimit(3)
-
-                        Text("Card Entry name")
+                        
+                        Text("card name")
+                        //Text("\(card.name!)")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                     }
