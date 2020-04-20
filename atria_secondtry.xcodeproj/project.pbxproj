@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00240C67244D6C3B00004005 /* CellClassification.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 00240C66244D6C3B00004005 /* CellClassification.mlmodel */; };
+		00240C6B244D727B00004005 /* CGImagePropertyOrientation+UIImageOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00240C6A244D727B00004005 /* CGImagePropertyOrientation+UIImageOrientation.swift */; };
 		0065B99A2449013500B3EF01 /* libRecommender.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0065B9992449013400B3EF01 /* libRecommender.dylib */; };
-		0065B99C2449014300B3EF01 /* Classification.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 0065B99B2449014200B3EF01 /* Classification.mlmodel */; };
 		0065B99E244906A200B3EF01 /* AboutUsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0065B99D244906A200B3EF01 /* AboutUsView.swift */; };
 		0065B9A4244910C200B3EF01 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0065B9A3244910C200B3EF01 /* CardView.swift */; };
 		00B8200D244CD65100EE5C60 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B8200C244CD65100EE5C60 /* ImagePicker.swift */; };
@@ -27,8 +28,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		00240C66244D6C3B00004005 /* CellClassification.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = CellClassification.mlmodel; sourceTree = "<group>"; };
+		00240C6A244D727B00004005 /* CGImagePropertyOrientation+UIImageOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGImagePropertyOrientation+UIImageOrientation.swift"; sourceTree = "<group>"; };
 		0065B9992449013400B3EF01 /* libRecommender.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libRecommender.dylib; sourceTree = "<group>"; };
-		0065B99B2449014200B3EF01 /* Classification.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Classification.mlmodel; sourceTree = "<group>"; };
 		0065B99D244906A200B3EF01 /* AboutUsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsView.swift; sourceTree = "<group>"; };
 		0065B9A3244910C200B3EF01 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		00B8200C244CD65100EE5C60 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -95,13 +97,14 @@
 				0065B9A3244910C200B3EF01 /* CardView.swift */,
 				00DD52A224498C8700646FCE /* CardDetailView.swift */,
 				00B82010244CD86600EE5C60 /* NewPictureView.swift */,
+				00240C6A244D727B00004005 /* CGImagePropertyOrientation+UIImageOrientation.swift */,
 				00B8200C244CD65100EE5C60 /* ImagePicker.swift */,
 				00D105E6244AD0B500400531 /* CardData.swift */,
 				0065B99D244906A200B3EF01 /* AboutUsView.swift */,
+				00240C66244D6C3B00004005 /* CellClassification.mlmodel */,
 				00E644412447E5FB0029EE4C /* Assets.xcassets */,
 				00E644462447E5FB0029EE4C /* LaunchScreen.storyboard */,
 				00E644492447E5FB0029EE4C /* Info.plist */,
-				0065B99B2449014200B3EF01 /* Classification.mlmodel */,
 				0065B9992449013400B3EF01 /* libRecommender.dylib */,
 				00E6443C2447E5F50029EE4C /* atria_secondtry.xcdatamodeld */,
 				00E644432447E5FB0029EE4C /* Preview Content */,
@@ -190,15 +193,16 @@
 			files = (
 				00D105E7244AD0B500400531 /* CardData.swift in Sources */,
 				0065B9A4244910C200B3EF01 /* CardView.swift in Sources */,
+				00240C6B244D727B00004005 /* CGImagePropertyOrientation+UIImageOrientation.swift in Sources */,
 				00B8200D244CD65100EE5C60 /* ImagePicker.swift in Sources */,
 				00DD52A324498C8700646FCE /* CardDetailView.swift in Sources */,
 				00BEAE0424491B22002F1523 /* Coordinator.swift in Sources */,
 				00E644392447E5F50029EE4C /* AppDelegate.swift in Sources */,
-				0065B99C2449014300B3EF01 /* Classification.mlmodel in Sources */,
 				00E6443E2447E5F50029EE4C /* atria_secondtry.xcdatamodeld in Sources */,
 				00E644402447E5F50029EE4C /* HomePage.swift in Sources */,
 				00B82011244CD86600EE5C60 /* NewPictureView.swift in Sources */,
 				0065B99E244906A200B3EF01 /* AboutUsView.swift in Sources */,
+				00240C67244D6C3B00004005 /* CellClassification.mlmodel in Sources */,
 				00E6443B2447E5F50029EE4C /* SceneDelegate.swift in Sources */,
 				00BEAE0224491AC6002F1523 /* CaptureImageView.swift in Sources */,
 			);

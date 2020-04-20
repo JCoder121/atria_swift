@@ -8,28 +8,104 @@
 
 import SwiftUI
 import CoreData
+import Vision
+import CoreML
 
 struct NewPictureView: View {
       
     @FetchRequest(entity: CardData.entity(),sortDescriptors: []) var cards: FetchedResults<CardData>
     @Environment(\.managedObjectContext) var managedObjectContext
-
-    //@State var image_to_save: Image
+    
     @State var image: Data = .init(count:0)
     @State var showImagePicker: Bool = false
     @State var showAnalysis: Bool = false
     
-    
-    let model = Classification()
-    @State var output_classification: String = ""
-    
-    
+    @State var classificationLabel: String = ""
+    @State var topClassification: String = ""
+
+
     //alert or some other view to name the thing
-    @State var userLabel: String = ""
+    //@State var userLabel: String = ""
     
     ///ML MODEL
-    //test
-
+    
+    
+    /// - Tag: PerformRequests
+    func updateClassifications(for image: UIImage) {
+        
+        guard let model = try? VNCoreMLModel(for: CellClassification().model) else {
+            return
+        }
+        
+        let request = VNCoreMLRequest(model: model, completionHandler: { request, error in
+            self.processClassifications(for: request, error: error)
+        })
+        request.imageCropAndScaleOption = .scaleFill
+        
+        let orientation = CGImagePropertyOrientation(image.imageOrientation)
+        guard let ciImage = CIImage(image: image) else { fatalError("Unable to create \(CIImage.self) from \(image).") }
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            let handler = VNImageRequestHandler(ciImage: ciImage, orientation: orientation)
+            do {
+                try handler.perform([request])
+            } catch {
+                /*
+                 This handler catches general image processing errors. The `classificationRequest`'s
+                 completion handler `processClassifications(_:error:)` catches errors specific
+                 to processing that request.
+                 */
+                print("Failed to perform classification.\n\(error.localizedDescription)")
+            }
+        }
+    }
+    
+    /// Updates the UI with the results of the classification.
+    /// - Tag: ProcessClassifications
+    func processClassifications(for request: VNRequest, error: Error?) {
+        DispatchQueue.main.async {
+            guard let results = request.results else {
+                return
+            }
+            // The `results` will always be `VNClassificationObservation`s, as specified by the Core ML model in this project.
+            let classifications = results as! [VNClassificationObservation]
+        
+            if classifications.isEmpty {
+                print("empty")
+            } else {
+                // Display top classifications ranked by confidence in the UI.
+                let topClassifications = classifications.prefix(1)
+                
+                _ = topClassifications.map { classification -> String in
+                    
+                    //gives the real output
+                    self.topClassification = String(format: "%@", classification.identifier)
+                return String(format: "%@", classification.identifier)
+                    
+                }
+                
+                self.classificationLabel =  self.topClassification
+                
+                //Save into CoreData and reflect in home page
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let context = appDelegate.persistentContainer.viewContext
+                
+                let send = CardData(context: self.managedObjectContext)
+                send.classification = self.classificationLabel
+                send.picture = self.image
+            
+                do{
+                    try context.save()
+                } catch{
+                   print(error)
+                }
+                
+            }
+        
+        }
+    }
+    
+   
     ///VIEW HANDLING
     var body: some View {
 
@@ -37,49 +113,22 @@ struct NewPictureView: View {
            
             Text("Add Picture").fontWeight(.heavy).font(.largeTitle).padding()
             if self.image.count != 0 {
-                //image_to_save = Image(uiImage: UIImage(data: self.image)!)
+                Spacer()
                Image(uiImage: UIImage(data: self.image)!)
                     .renderingMode(.original)
                     .resizable()
-                    .frame(width: 100, height: 100)
+                    .frame(width: 320, height: 240)
             }
             else{
+                Spacer()
                Image(systemName: "photo.fill")
             }
            Spacer()
            
            Button(action: {
-            //need to make sure you can only press analzye after choosing image
-              //FIX machine learning here
-            //if self.image.count != 0 {
-           /*
-            guard (try? self.model.prediction(image: Image(uiImage: UIImage(data: self.image)!) as! CVPixelBuffer)) != nil else{
-                fatalError("Unexpected runtime error.")
-            }
-            */
-            //let output_classification = model.
-                
-                //self.showAnalysis.toggle()
             
-            
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let context = appDelegate.persistentContainer.viewContext
-                
-                let send = CardData(context: self.managedObjectContext)
-                send.name = self.userLabel
-                send.picture = self.image
-                
-                //title stuff here
-        
-            
-                do{
-                    try context.save()
-                } catch{
-                   print(error)
-               }
-                
-            //}
-            
+            //MLModel calling below, pass in self.image data
+            self.updateClassifications(for: UIImage(data: self.image)!)
            })
            {
             Text("Analyze")
@@ -90,7 +139,10 @@ struct NewPictureView: View {
                     .cornerRadius(30)
                     .foregroundColor(.white)
            }
+            //analyze button is disabled if no image entered
+           .disabled(self.image.count == 0)
            
+            
            HStack{
                
                Button(action: {
@@ -138,7 +190,9 @@ struct NewPictureView: View {
    }
 }
 
-
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+    return input.rawValue
+}
 
 struct NewPictureView_Previews: PreviewProvider {
     static var previews: some View {

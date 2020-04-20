@@ -13,12 +13,7 @@ import CoreData
 
 public class CardData: NSManagedObject, Identifiable {
     
-    /*
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<CardData> {
-        return NSFetchRequest<CardData>(entityName: "CardData")
-    }
-    */
-    
+
     @NSManaged public var name: String?
     @NSManaged public var picture: Data?
     @NSManaged public var classification: String?
@@ -27,15 +22,11 @@ public class CardData: NSManagedObject, Identifiable {
 
 extension CardData {
     static func getAllEntries() -> NSFetchRequest<CardData> {
-        //old bad
-        //let request: NSFetchRequest<Entry> = Entry.fetchRequest() as! NSFetchRequest<Entry>
         
-        //good one as searched up
-        //let request: NSFetchRequest<Entry> = NSFetchRequest<Entry>(entityName: "Entry")
         let request = NSFetchRequest<CardData>(entityName: "CardData")
         
         //maybe sort data by the date string, will add that text later
-        //key is sort by date added
+        //key is sort by date added, will go by sortdescriptor
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         
         request.sortDescriptors = [sortDescriptor]
@@ -43,7 +34,7 @@ extension CardData {
         return request
     }
     
-    
 }
+ 
 
 

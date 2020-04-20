@@ -13,7 +13,6 @@ import Combine
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var showImagePicker: Bool
     @Binding var image: Data
-    //@Binding var image_to_save: Image
     
     func makeCoordinator() -> ImagePicker.Coordinator {
         return ImagePicker.Coordinator(child1: self)
@@ -45,7 +44,6 @@ struct ImagePicker: UIViewControllerRepresentable {
             let image = info[.originalImage] as! UIImage
             let data = image.jpegData(compressionQuality: 0.45)
             
-            //self.child.image_to_save = info[.originalImage] as! Image
             self.child.image = data!
             self.child.showImagePicker.toggle()
         }

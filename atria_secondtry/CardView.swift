@@ -44,13 +44,9 @@ struct CardView: View {
         UITableView.appearance().showsVerticalScrollIndicator = false
     }
     
-    //need to refresh body immediately after deleting
-
-
     var body: some View {
         
         //this view displays the past saved entries
-        
         VStack{
             HStack {
                Text("Past Entries").fontWeight(.heavy).font(.largeTitle).padding()
@@ -59,7 +55,7 @@ struct CardView: View {
                 Button(action: {
                    //better looking delete function later
                     self.delete_all()
-                    
+                    //need to refresh the view, show nothing there anymore
                 })
                 {
                     Text("Delete").font(.title).padding()
@@ -73,33 +69,29 @@ struct CardView: View {
                 Button(action: {
                     self.showCardDetail.toggle()
                 }){
-                //Image("Eosinophil")
                 Image(uiImage: UIImage(data: card.picture ?? self.image)!)
                               .resizable()
                               .renderingMode(.original)
                               .aspectRatio(contentMode: .fit)
                          
-        
                 HStack {
                     VStack(alignment: .leading) {
-                       
-                        
-                        Text("4/16/20")
-                            .font(.headline)
-                            .foregroundColor(.secondary)
-                        
-                       Text("Classification")
-                       //Text("\(card.name!)")
-                        //Text(card.name)
-                        .font(.custom("Futura", size: 25))
-                            
+                        Text("\(card.classification!)")
+                            .font(.custom("Futura", size: 25))
                             .foregroundColor(.primary)
                             .lineLimit(3)
                         
+                        Text("01/01/20")
+                            .font(.headline)
+                            .foregroundColor(.secondary)
+                        
+                        /*
+                         //will do this later
                         Text("card name")
                         //Text("\(card.name!)")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
+                        */
                     }
                     .layoutPriority(100)
                     Spacer()
