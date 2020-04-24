@@ -1,0 +1,104 @@
+animated little loops
+
+/*
+ //heartbreak
+.init(x: 2, y: 1),
+.init(x: 1, y: 0),
+.init(x: 0, y: 1),
+.init(x: 1, y: 2),
+.init(x: 2, y: 3),
+.init(x: 2, y: 1),
+.init(x: 3, y: 0),
+.init(x: 4, y: 1),
+.init(x: 3, y: 2),
+.init(x: 2, y: 3)
+ */
+ 
+ 
+ // x red cross
+ .init(x: 2, y: 1),
+ .init(x: 1, y: 0),
+ .init(x: 0, y: 1),
+ .init(x: 1, y: 2),
+ .init(x: 2, y: 3),
+ .init(x: 3, y: 2),
+ .init(x: 4, y: 1),
+ .init(x: 3, y: 0),
+ .init(x: 2, y: 1),
+ .init(x: 1, y: 2),
+ .init(x: 0, y: 3),
+ .init(x: 1, y: 4),
+ .init(x: 2, y: 3),
+ .init(x: 3, y: 4),
+ .init(x: 4, y: 3),
+ .init(x: 3, y: 2),
+ .init(x: 2, y: 1)
+ 
+ 
+ //initial infinity hourglass
+                        /*
+                        .init(x: 2, y: 1),
+                        .init(x: 1, y: 0),
+                        .init(x: 0, y: 1),
+                        .init(x: 1, y: 2),
+                        .init(x: 3, y: 0),
+                        .init(x: 4, y: 1),
+                        .init(x: 3, y: 2),
+                        .init(x: 2, y: 1)
+                        */
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+//unused for circles
+@State var spinGreenCircle = false
+@State var trimGreenCircle = false
+
+//unused for the pulsing circles
+@State var pulsate = false
+@State var showWaves = false
+
+           
+           /*
+           RadialGradient(gradient: Gradient(colors: [Color.white, Color.red]), center: .center, startRadius: 2, endRadius: 500)
+               .scaleEffect(1.2)
+           */
+           //circle pulsing didnt work
+           /*
+           Circle()
+               .stroke(lineWidth: 2)
+               .frame(width: 100, height: 100)
+               .foregroundColor(.blue)
+               .scaleEffect(showWaves ? 2 : 1)
+               .hueRotation(.degrees(showWaves ? 360 : 180))
+                   .animation(Animation.easeInOut(duration: 2).repeatForever(autoreverses: false).speed(1))
+           
+                   .onAppear() {
+                       self.showWaves.toggle()
+           }
+            */
+           //spinning circles
+           
+           /*
+           ZStack {
+               Circle()
+                   .stroke(Color.purple, lineWidth: 4)
+                   .opacity(0.2)
+                   .frame(width: 150, height: 150)
+               
+               Circle()
+                   .trim(from: trimGreenCircle ? 0: 1/8, to: trimGreenCircle ? 1/6: 1)
+                   .stroke(Color.red, lineWidth: 4)
+                   .frame(width: 150, height: 150)
+                   .rotationEffect(.degrees(spinGreenCircle ? 0 : -360*4), anchor: .center)
+                   .animation(Animation.linear(duration: 1).repeatForever(autoreverses: false).speed(1/3))
+                   .onAppear() {
+                           self.spinGreenCircle.toggle()
+                           self.trimGreenCircle.toggle()
+               }
+           }
+           */
