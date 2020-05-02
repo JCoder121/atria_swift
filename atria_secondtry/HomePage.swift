@@ -44,11 +44,10 @@ struct HomePage: View {
             }
             }
             
-            SplashScreen()
+            SplashScreen2()
               .opacity(showSplash ? 1 : 0)
               .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                  SplashScreen.shouldAnimate = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
                   withAnimation() {
                       self.showSplash = false
                     self.showCards = true

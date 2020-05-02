@@ -16,44 +16,102 @@ struct CardView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(entity: CardData.entity(),sortDescriptors: [NSSortDescriptor(keyPath: \CardData.name, ascending: true)]) var cards: FetchedResults<CardData>
 
+
+
     @State var showCardDetail: Bool = false
     @State var image: Data = .init(count: 0)
-   
+    @State var change_name = ""
+    
     //filter when searching?
     //this can just be fetch request with a predicate but need to indicate a symbol/sort function
     
     func delete_card(at offsets: IndexSet) {
-    for offset in offsets {
-        let card = cards[offset]
-        managedObjectContext.delete(card)
+        for offset in offsets {
+            let card = cards[offset]
+            managedObjectContext.delete(card)
+            }
+            
+            try? managedObjectContext.save()
         }
-        
-        try? managedObjectContext.save()
-    }
     
     func delete_all() {
         
         //if something goes bad this is failsafe to delete everything in tableview
         //doesn't refresh, let user manually delete
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        let context = delegate.persistentContainer.viewContext
-
-        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "CardData")
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
-        
+        let persistentContainer = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = CardData.fetchRequest()
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+       
         do {
-            try context.execute(deleteRequest)
-            try context.save()
-            
+            try persistentContainer.viewContext.executeAndMergeChanges(using: deleteRequest)
+           
         } catch {
             print ("There was an error")
         }
+        
     
     }
 
     init() {
         UITableView.appearance().showsVerticalScrollIndicator = false
     }
+    
+    private func alert() {
+           
+           let alert = UIAlertController(title: "Change Name", message: "test", preferredStyle: .alert)
+           
+           alert.addTextField() { textField in
+               textField.placeholder = "Enter your name"
+           }
+           alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in })
+           showAlert(alert: alert)
+           
+           alert.addAction(UIAlertAction(title: "Done", style: .default) { _ in
+               let textField = alert.textFields![0] as UITextField
+               self.change_name = textField.text ?? "Name"
+               
+            //return self.change_name
+           })
+       }
+
+       func showAlert(alert: UIAlertController) {
+           if let controller = topMostViewController() {
+               controller.present(alert, animated: true)
+           }
+       }
+
+       private func keyWindow() -> UIWindow? {
+           return UIApplication.shared.connectedScenes
+           .filter {$0.activationState == .foregroundActive}
+           .compactMap {$0 as? UIWindowScene}
+           .first?.windows.filter {$0.isKeyWindow}.first
+       }
+
+       private func topMostViewController() -> UIViewController? {
+           guard let rootController = keyWindow()?.rootViewController else {
+               return nil
+           }
+           return topMostViewController(for: rootController)
+       }
+
+       private func topMostViewController(for controller: UIViewController) -> UIViewController {
+           if let presentedController = controller.presentedViewController {
+               return topMostViewController(for: presentedController)
+           } else if let navigationController = controller as? UINavigationController {
+               guard let topController = navigationController.topViewController else {
+                   return navigationController
+               }
+               return topMostViewController(for: topController)
+           } else if let tabController = controller as? UITabBarController {
+               guard let topController = tabController.selectedViewController else {
+                   return tabController
+               }
+               return topMostViewController(for: topController)
+           }
+           return controller
+       }
+       
+    
     
     var body: some View {
         
@@ -70,7 +128,7 @@ struct CardView: View {
                     //need to refresh the view, show nothing there anymore
                 })
                 {
-                    Text("Clear").font(.title).padding()
+                    Text("Clear All").font(.headline).padding()
                         .foregroundColor(Color.red)
                 }
             
@@ -81,6 +139,12 @@ struct CardView: View {
             
                 Button(action: {
                     self.showCardDetail.toggle()
+                  
+                        //self.alert()
+                    //name changing
+                    
+                    
+                  
                    
                 })
                 {
@@ -105,12 +169,13 @@ struct CardView: View {
                             .foregroundColor(.secondary)
                         
                         Text("\(card.name!)")
-                            //Text("card name")
+                        //    Text("card name")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         
                     }
                     .layoutPriority(100)
+                    
                     Spacer()
                 }
                 
@@ -122,11 +187,12 @@ struct CardView: View {
                             .stroke(Color(.sRGB, red:150/255, green: 150/255, blue: 150/255, opacity: 0.1), lineWidth: 1)
                         )
                             .padding([.top, .horizontal])
-                    
+                /*
                 .sheet(isPresented: self.$showCardDetail){
                             CardDetailView()
                     //do card detail view later -> only for the name change
                             }
+                     */
                     }.onDelete(perform: delete_card)
                 
             }
@@ -137,6 +203,19 @@ struct CardView: View {
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
         CardView()
+    }
+}
+
+extension NSManagedObjectContext {
+    /// Executes the given `NSBatchDeleteRequest` and directly merges the changes to bring the given managed object context up to date.
+    ///
+    /// - Parameter batchDeleteRequest: The `NSBatchDeleteRequest` to execute.
+    /// - Throws: An error if anything went wrong executing the batch deletion.
+    public func executeAndMergeChanges(using batchDeleteRequest: NSBatchDeleteRequest) throws {
+        batchDeleteRequest.resultType = .resultTypeObjectIDs
+        let result = try execute(batchDeleteRequest) as? NSBatchDeleteResult
+        let changes: [AnyHashable: Any] = [NSDeletedObjectsKey: result?.result as? [NSManagedObjectID] ?? []]
+        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [self])
     }
 }
 

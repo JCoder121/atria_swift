@@ -129,28 +129,28 @@ struct NewPictureView: View {
         VStack(alignment: .center, spacing: 30) {
            
             if !self.showFinish {
-            Text("Add Picture").fontWeight(.heavy).font(.largeTitle).padding()
-            if self.image.count != 0 && self.showFinish {
-               
-            }
-            
-            if self.image.count != 0 {
+                Text("Add Picture").fontWeight(.heavy).font(.largeTitle).padding()
+                if self.image.count != 0 && self.showFinish {
+                   
+                }
                 
-                Spacer()
-               Image(uiImage: UIImage(data: self.image)!)
-                    .renderingMode(.original)
-                    .resizable()
-                    .frame(width: 320, height: 240)
+                if self.image.count != 0 {
+                    
+                    Spacer()
+                   Image(uiImage: UIImage(data: self.image)!)
+                        .renderingMode(.original)
+                        .resizable()
+                        .frame(width: 320, height: 240)
+                    
+                }
+                    
                 
-            }
+                else{
+                    Spacer()
+                   Image(systemName: "photo.fill")
+                }
+               Spacer()
                 
-            
-            else{
-                Spacer()
-               Image(systemName: "photo.fill")
-            }
-           Spacer()
-            
             //hide/show buttons with animations?
            
             if self.image.count != 0 {
@@ -243,6 +243,9 @@ struct NewPictureView: View {
                 
                  FinishView()
                 
+                //self.showFinish.toggle()
+               
+                
             }
        }
    }
@@ -305,8 +308,6 @@ struct FinishView: View {
             Text("Classification Added")
                 .font(.custom("Futura", size: 30))
                 .offset(x: 0, y: screenWidth/4)
-        
-            
             
         }
     }
