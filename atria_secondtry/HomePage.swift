@@ -12,18 +12,20 @@ import SwiftUI
 
 struct HomePage: View {
     
-
+    @State var showSplash: Bool = true
+    @State var showCards: Bool = false
+    
     var body: some View {
-        VStack {
             
+
+        ZStack {
+            if (showCards) {
             TabView {
                 //takes care of scrolling card view
                 CardView()
                     .tabItem {
-                        Image(systemName: "house")
+                Image(systemName: "house")
                         Text("Home")
-                        //other materials here
-                        //show cards here
                         
                 }
                 //takes care of scanning in pictures for input
@@ -31,7 +33,6 @@ struct HomePage: View {
                     .tabItem {
                         Image(systemName: "camera")
                         Text("Add")
-                        //do things
                 }
                 
                 //filler view for now, could be of use later
@@ -41,7 +42,19 @@ struct HomePage: View {
                         Text("About Us")
                 }
             }
-    
+            }
+            
+            SplashScreen2()
+              .opacity(showSplash ? 1 : 0)
+              .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                  withAnimation() {
+                      self.showSplash = false
+                    self.showCards = true
+                  }
+                }
+            }
+        
         }
             
     }

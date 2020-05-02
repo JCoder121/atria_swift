@@ -9,19 +9,22 @@
 import SwiftUI
 
 
+//work on this later
 struct CardDetailView: View {
+    
+    
     var body : some View{
         
         VStack{
             
             Text("This is the card detail view")
             Button(action: {
-                print("something happened")
+                print("something")
             }) {
-                Text("hi there")
+                Text("hi")
             }
             }.background(Color.white)
-            .clipShape(Rounded())
+            
             .padding(.top, -75)
             
         }
@@ -33,11 +36,4 @@ struct CardDetailView_Previews: PreviewProvider {
     }
 }
 
-struct Rounded : Shape {
-    
-    func path(in rect: CGRect) -> Path {
-        
-        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: [.topLeft,.topRight], cornerRadii: CGSize(width: 40, height: 40))
-        return Path(path.cgPath)
-    }
-}
+

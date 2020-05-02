@@ -6,21 +6,20 @@
 //  Copyright © 2020 Jeffrey Chen. All rights reserved.
 //
 
-
 import Foundation
 import CoreData
 
-
 public class CardData: NSManagedObject, Identifiable {
     
-
     @NSManaged public var name: String?
     @NSManaged public var picture: Data?
     @NSManaged public var classification: String?
+    @NSManaged public var dateAdded: String?
     
 }
 
 extension CardData {
+    
     static func getAllEntries() -> NSFetchRequest<CardData> {
         
         let request = NSFetchRequest<CardData>(entityName: "CardData")
@@ -35,6 +34,5 @@ extension CardData {
     }
     
 }
- 
 
 
