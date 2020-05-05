@@ -30,7 +30,6 @@ struct NewPictureView: View {
     @State var cellName: String = "WBC Classification"
     
 
-
     
     ///ML MODEL
     /// - Tag: PerformRequests
@@ -141,6 +140,7 @@ struct NewPictureView: View {
                         .renderingMode(.original)
                         .resizable()
                         .frame(width: 320, height: 240)
+                    
                     
                 }
                     
