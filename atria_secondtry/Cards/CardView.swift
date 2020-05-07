@@ -165,13 +165,13 @@ struct CardView: View {
                             .foregroundColor(.primary)
                             .lineLimit(3)
                         
-                        Text("\(card.dateAdded!)")
-                        //Text("01/01/20")
+                        //Text("\(card.dateAdded!)")
+                        Text("01/01/20")
                             .font(.headline)
                             .foregroundColor(.secondary)
                         
-                        Text("\(card.name!)")
-                        //    Text("card name")
+                      //  Text("\(card.name!)")
+                           Text("card name")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         

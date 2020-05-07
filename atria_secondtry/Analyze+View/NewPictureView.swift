@@ -30,6 +30,7 @@ struct NewPictureView: View {
     @State var topClassification: String = ""
     @State var cellName: String = ""
     
+
     
     ///ML MODEL
     /// - Tag: PerformRequests
@@ -190,6 +191,7 @@ struct NewPictureView: View {
                         }
                 
                        Spacer()
+                    
                     
                 }
                     
