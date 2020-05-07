@@ -9,8 +9,6 @@
 import SwiftUI
 import CoreData
 
-
-
 struct CardView: View {
     
     @Environment(\.managedObjectContext) var managedObjectContext
@@ -49,13 +47,6 @@ struct CardView: View {
         
     
     }
-
-    //not this
-    /*
-    init() {
-        UITableView.appearance().showsVerticalScrollIndicator = false
-    }
-     */
     
     private func alert() {
            
@@ -70,8 +61,7 @@ struct CardView: View {
            alert.addAction(UIAlertAction(title: "Done", style: .default) { _ in
                let textField = alert.textFields![0] as UITextField
                self.change_name = textField.text ?? "Name"
-               
-            //return self.change_name
+    
            })
        }
 
@@ -142,10 +132,7 @@ struct CardView: View {
                     /*
                 Button(action: {
                     self.showCardDetail.toggle()
-                  
-                    //name changing
-      
-                   
+                    //name changing or showing more detail
                 })
                      */
                 
@@ -165,13 +152,13 @@ struct CardView: View {
                             .foregroundColor(.primary)
                             .lineLimit(3)
                         
-                        //Text("\(card.dateAdded!)")
-                        Text("01/01/20")
+                        Text("\(card.dateAdded!)")
+                        //Text("01/01/20")
                             .font(.headline)
                             .foregroundColor(.secondary)
                         
-                      //  Text("\(card.name!)")
-                           Text("card name")
+                        Text("\(card.name!)")
+                           //Text("card name")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         
@@ -188,11 +175,11 @@ struct CardView: View {
                             RoundedRectangle(cornerRadius:10)
                             .stroke(Color(.sRGB, red:150/255, green: 150/255, blue: 150/255, opacity: 0.1), lineWidth: 1)
                         )
-                            //.padding([.top, .horizontal])
+                           
                     .padding(.leading, 30)
                     .padding(.trailing, 30)
+                    .padding(.top, 24)
                     
-    
                 /*
                 .sheet(isPresented: self.$showCardDetail){
                             CardDetailView()

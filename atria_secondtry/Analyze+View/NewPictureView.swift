@@ -11,8 +11,6 @@ import CoreData
 import Vision
 import CoreML
 
-
-
 struct NewPictureView: View {
       
     @FetchRequest(entity: CardData.entity(),sortDescriptors: []) var cards: FetchedResults<CardData>
@@ -30,7 +28,6 @@ struct NewPictureView: View {
     @State var topClassification: String = ""
     @State var cellName: String = ""
     
-
     
     ///ML MODEL
     /// - Tag: PerformRequests
@@ -107,7 +104,12 @@ struct NewPictureView: View {
                 let send = CardData(context: self.managedObjectContext)
                 send.classification = self.classificationLabel
                 send.picture = self.image
-                send.name = self.cellName
+                if self.cellName == "" {
+                    send.name = "WBC Classification"
+                }
+                else{
+                    send.name = self.cellName
+                }
                 send.dateAdded = toSave
                 
                
@@ -140,7 +142,6 @@ struct NewPictureView: View {
                         .resizable()
                         .frame(width: 320, height: 240)
                     .cornerRadius(10)
-                    
 
                     Spacer()
                     VStack{
@@ -153,7 +154,7 @@ struct NewPictureView: View {
                         
                        Button(action: {
                         
-                        //Call ML
+                        //Call ML function
                         self.showFinish.toggle()
                         self.updateClassifications(for: UIImage(data: self.image)!)
                        })
@@ -192,9 +193,7 @@ struct NewPictureView: View {
                 
                        Spacer()
                     
-                    
                 }
-                    
                 
                 else{
                     Spacer()
@@ -260,6 +259,7 @@ struct NewPictureView: View {
             Spacer()
                 
             //hide/show buttons with animations?
+            //unused animation when finished classifying
             /*
             if self.image.count != 0 {
             
@@ -294,9 +294,7 @@ struct NewPictureView: View {
                 
          
             }
-           
-            
-           
+        
            
            Spacer()
         }
