@@ -12,6 +12,7 @@ import Vision
 import CoreML
 
 
+
 struct NewPictureView: View {
       
     @FetchRequest(entity: CardData.entity(),sortDescriptors: []) var cards: FetchedResults<CardData>
@@ -21,16 +22,14 @@ struct NewPictureView: View {
     
     @State var showImagePicker: Bool = false
     @State var showCameraImagePicker: Bool = false
-    @State var showAnalysis: Bool = false
+    @State var showAnalyze: Bool = true
     @State var showFinish: Bool = false
-    
+    @State var showClassification: Bool = false
     
     @State var classificationLabel: String = ""
     @State var topClassification: String = ""
-    @State var cellName: String = "WBC Classification"
+    @State var cellName: String = ""
     
-
-
     
     ///ML MODEL
     /// - Tag: PerformRequests
@@ -110,6 +109,7 @@ struct NewPictureView: View {
                 send.name = self.cellName
                 send.dateAdded = toSave
                 
+               
                 
                 do{
                     try context.save()
@@ -127,20 +127,69 @@ struct NewPictureView: View {
     var body: some View {
 
         VStack(alignment: .center, spacing: 30) {
-           
-            if !self.showFinish {
+            
                 Text("Add Picture").fontWeight(.heavy).font(.largeTitle).padding()
-                if self.image.count != 0 && self.showFinish {
-                   
-                }
+               
                 
-                if self.image.count != 0 {
+            if self.image.count != 0 && self.showAnalyze {
                     
                     Spacer()
                    Image(uiImage: UIImage(data: self.image)!)
                         .renderingMode(.original)
                         .resizable()
                         .frame(width: 320, height: 240)
+                    .cornerRadius(10)
+                    
+
+                    Spacer()
+                    VStack{
+                    TextField("Tap me to set a name!", text: $cellName)
+                        .frame(minWidth: 0, maxWidth: 240)
+                        .background(Color.white)
+                        .cornerRadius(5)
+                        .shadow(radius: 2)
+                        .padding()
+                        
+                       Button(action: {
+                        
+                        //Call ML
+                        self.showFinish.toggle()
+                        self.updateClassifications(for: UIImage(data: self.image)!)
+                       })
+                       {
+                        Text("Analyze")
+                                .frame(minWidth: 0, maxWidth: 275)
+                                .padding()
+                                .font(.custom("Futura", size: 20))
+                                .background(Color(red: 219 / 255, green: 184 / 255, blue: 233 / 255))
+                                .cornerRadius(30)
+                                .foregroundColor(.white)
+                       }.alert(isPresented: $showFinish) {
+                        
+                        Alert(title: Text("Classification Complete"), message: Text("Check your home screen to see your classification!"), dismissButton: .default(Text("Done")))
+                        
+                       }
+                        //analyze button is disabled if no image entered
+                        .disabled(self.image.count == 0)
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            self.image.count = 0
+                        }){
+                            Text("Reset")
+                                .frame(minWidth: 0, maxWidth: 275)
+                                .padding()
+                                .font(.custom("Futura", size: 20))
+                                .background(Color(red: 219 / 255, green: 184 / 255, blue: 233 / 255))
+                                .cornerRadius(30)
+                                .foregroundColor(.white)
+
+                        }
+                     
+                        }
+                
+                       Spacer()
                     
                 }
                     
@@ -148,27 +197,85 @@ struct NewPictureView: View {
                 else{
                     Spacer()
                    Image(systemName: "photo.fill")
+                    Spacer()
+                    HStack{
+                     
+                        Button(action: {
+                         self.showCameraImagePicker.toggle()
+                         self.showClassification.toggle()
+                             
+                        })
+                        {
+                            Text("Use Camera")
+                             .font(.custom("Futura", size: 20))
+                             .padding()
+                             .background(Color(red: 219 / 255, green: 184 / 255, blue: 233 / 255))
+                             .cornerRadius(30)
+                             .foregroundColor(.white)
+                             .padding(10)
+                             
+                        }.sheet(isPresented: self.$showCameraImagePicker, onDismiss: {
+                         self.showCameraImagePicker = false
+                        self.showAnalyze = true
+                           
+                            
+                        }, content: {
+                         //most likely crashes on simulator
+                         CameraImage(showCameraImagePicker: self.$showCameraImagePicker, image: self.$image)
+                        })
+                     
+                     
+                     
+                        Button(action: {
+                             self.showImagePicker.toggle()
+                             self.showClassification.toggle()
+                         })
+                         {
+                             Text("Photo Library")
+                                
+                                .font(.custom("Futura", size: 20))
+                                .padding()
+                                .background(Color(red: 219 / 255, green: 184 / 255, blue: 233 / 255))
+                                .cornerRadius(30)
+                                .foregroundColor(.white)
+                                .padding(10)
+                        }
+
+                        .sheet(isPresented: self.$showImagePicker, onDismiss: {
+                            self.showImagePicker = false
+                            self.showAnalyze = true
+                            
+                            
+                            
+                        }, content: {
+                            ImagePicker(showImagePicker: self.$showImagePicker, image: self.$image)
+                        })
+                        
+                    }
                 }
-               Spacer()
+               
+            
+            Spacer()
                 
             //hide/show buttons with animations?
-           
+            /*
             if self.image.count != 0 {
-            VStack{
-            TextField("Name your classification?", text: $cellName)
-                .frame(minWidth: 0, maxWidth: 240)
-                .background(Color.white)
-                .cornerRadius(5)
-                .shadow(radius: 2)
-            }
-            }
             
-            if self.image.count != 0 {
+                VStack{
+                TextField("Name your classification?", text: $cellName)
+                    .frame(minWidth: 0, maxWidth: 240)
+                    .background(Color.white)
+                    .cornerRadius(5)
+                    .shadow(radius: 2)
+                
+                
            Button(action: {
             
             //Call ML, change views to finished classifying
-            self.showFinish.toggle()
+            //self.showFinish.toggle()
+            //self.showAnalyze.toggle()
             self.updateClassifications(for: UIImage(data: self.image)!)
+            
            })
            {
             Text("Analyze")
@@ -181,73 +288,18 @@ struct NewPictureView: View {
            }
             //analyze button is disabled if no image entered
             
-           .disabled(self.image.count == 0)
-               
+            .disabled(self.image.count == 0)
                 
          
             }
            
             
-           HStack{
-            
-               Button(action: {
-                self.showCameraImagePicker.toggle()
-                    
-               })
-               {
-                   Text("Use Camera")
-                    .font(.custom("Futura", size: 20))
-                    .padding()
-                    .background(Color(red: 219 / 255, green: 184 / 255, blue: 233 / 255))
-                    .cornerRadius(30)
-                    .foregroundColor(.white)
-                    .padding(10)
-                    
-               }.sheet(isPresented: self.$showCameraImagePicker, onDismiss: {
-                self.showCameraImagePicker = false
-               }, content: {
-                //most likely crashes on simulator
-                CameraImage(showCameraImagePicker: self.$showCameraImagePicker, image: self.$image)
-               })
-            
-            
-            
-               
-               Button(action: {
-                    self.showImagePicker.toggle()
-                })
-                {
-                    Text("Photo Library")
-                       
-                       .font(.custom("Futura", size: 20))
-                       .padding()
-                       .background(Color(red: 219 / 255, green: 184 / 255, blue: 233 / 255))
-                       .cornerRadius(30)
-                       .foregroundColor(.white)
-                       .padding(10)
-               }
-
-               .sheet(isPresented: self.$showImagePicker, onDismiss: {
-                   self.showImagePicker = false
-                   
-                   
-               }, content: {
-                   ImagePicker(showImagePicker: self.$showImagePicker, image: self.$image)
-               })
-               
-           }
+           
            
            Spacer()
-            }
-            else {
-                
-                 FinishView()
-                
-                //self.showFinish.toggle()
-               
-                
-            }
-       }
+        }
+            */
+        }
    }
 }
 
@@ -257,18 +309,34 @@ fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePicke
 
 
 
-
+//fix this eventually
 
 struct FinishView: View {
     @State var showFirstStroke: Bool = false
     @State var showSecondStroke: Bool = false
     @State var showCheckMark: Bool = false
+    @State var finished: Bool = false
     
     let screenWidth = UIScreen.screenWidth
     let screenHeight = UIScreen.screenHeight
     
     var body: some View {
+        VStack{
+            if !self.finished{
+                ZStack{
+                    Button(action: {
+                        self.finished.toggle()
+                    })
+                    {
+                        Text("add another")
+                    }
+                }
+            }
         ZStack {
+        if !self.finished {
+        
+            
+            
         Circle()
             .strokeBorder(lineWidth: showFirstStroke ? 2 : 50, antialiased: false)
             .frame(width: 100, height: 100)
@@ -303,12 +371,15 @@ struct FinishView: View {
                 .animation(Animation.easeInOut.delay(3))
                 .onAppear() {
                     self.showCheckMark.toggle()
+                    
             }
         
-            Text("Classification Added")
-                .font(.custom("Futura", size: 30))
-                .offset(x: 0, y: screenWidth/4)
-            
+        }
+        
+        else{
+            NewPictureView()
+        }
+        }
         }
     }
 }

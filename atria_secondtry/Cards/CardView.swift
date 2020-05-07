@@ -16,8 +16,6 @@ struct CardView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(entity: CardData.entity(),sortDescriptors: [NSSortDescriptor(keyPath: \CardData.name, ascending: true)]) var cards: FetchedResults<CardData>
 
-
-
     @State var showCardDetail: Bool = false
     @State var image: Data = .init(count: 0)
     @State var change_name = ""
@@ -52,9 +50,12 @@ struct CardView: View {
     
     }
 
+    //not this
+    /*
     init() {
         UITableView.appearance().showsVerticalScrollIndicator = false
     }
+     */
     
     private func alert() {
            
@@ -134,20 +135,21 @@ struct CardView: View {
             
             }
             
-            List {
+            //List {
+            ScrollView{
+                
                 ForEach(cards, id: \.self) { card in
-            
+                    /*
                 Button(action: {
                     self.showCardDetail.toggle()
                   
-                        //self.alert()
                     //name changing
-                    
-                    
-                  
+      
                    
                 })
-                {
+                     */
+                
+                VStack {
                     //Image("Eosinophil")
                 Image(uiImage: UIImage(data: card.picture ?? self.image)!)
                               .resizable()
@@ -177,8 +179,8 @@ struct CardView: View {
                     .layoutPriority(100)
                     
                     Spacer()
-                }
                 
+                    }
                 .padding()
                     }
                 .cornerRadius(15)
@@ -186,7 +188,11 @@ struct CardView: View {
                             RoundedRectangle(cornerRadius:10)
                             .stroke(Color(.sRGB, red:150/255, green: 150/255, blue: 150/255, opacity: 0.1), lineWidth: 1)
                         )
-                            .padding([.top, .horizontal])
+                            //.padding([.top, .horizontal])
+                    .padding(.leading, 30)
+                    .padding(.trailing, 30)
+                    
+    
                 /*
                 .sheet(isPresented: self.$showCardDetail){
                             CardDetailView()
