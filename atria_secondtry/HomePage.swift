@@ -4,7 +4,7 @@
 //
 //  Created by Jeffrey Chen on 4/15/20.
 //  Copyright © 2020 Jeffrey Chen. All rights reserved.
-//get button images later
+//
 //
 
 import SwiftUI
@@ -13,7 +13,8 @@ import SwiftUI
 struct HomePage: View {
     
     @State var showSplash: Bool = true
-    @State var showCards: Bool = false
+    //@State var showCards: Bool = false
+    @State var showCards: Bool = true
     
     var body: some View {
             
@@ -35,7 +36,7 @@ struct HomePage: View {
                         Text("Add")
                 }
                 
-                //filler view for now, could be of use later
+                //picture of the peoples
                 AboutUsView()
                     .tabItem {
                         Image(systemName: "info.circle")
@@ -44,17 +45,18 @@ struct HomePage: View {
             }
             }
             
-            SplashScreen()
+            
+            SplashScreen2()
               .opacity(showSplash ? 1 : 0)
               .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                  SplashScreen.shouldAnimate = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
                   withAnimation() {
                       self.showSplash = false
                     self.showCards = true
                   }
                 }
             }
+            
         
         }
             
